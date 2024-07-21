@@ -1,0 +1,29 @@
+
+
+# # mysql
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   namespace: mysql
+#   name: pv0002
+#   labels:
+#     type: local
+# spec:
+#   capacity:
+#     storage: 25Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   hostPath:
+#     path: "/data001/pv0002"
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   namespace: mysql
+#   name: wordpress-volumeclaim
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi 

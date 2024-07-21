@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-operator-config
+  namespace: mysql-operator  
+data:
+  MYSQL_OPERATOR_K8S_CLUSTER_DOMAIN: "cluster.local"
+
