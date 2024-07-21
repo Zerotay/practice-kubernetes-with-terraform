@@ -63,4 +63,5 @@
 	- nginx ingress controller 활용
 	- 외부에서 `api`엔드포인트를 넣어서 보내면 내부 api 서버로 rewrite되도록
 
-자세한 구현 사항은 블로그 참조
+자세한 구현 사항은 블로그 참조  
+https://zerotay-blog.vercel.app/3.study/%EB%AF%B8%EB%B6%84%EB%A5%98/%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%20%EC%9D%B8%ED%84%B4%20%EA%B3%BC%EC%A0%9C/
