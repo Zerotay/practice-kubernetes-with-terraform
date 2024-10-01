@@ -1,0 +1,80 @@
+# Canary way
+# use one service between blue and green.
+# modify replicas of deployments
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: bg
+  name: bg-service
+spec:
+  ports:
+  - name: tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: canary
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue 
+  namespace: default
+  labels:
+    version: blue
+spec:
+  selector:
+    matchLabels:
+      version: blue
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: canary
+        version: blue
+    spec:
+      containers:
+      - name: rolling
+        image: nginx:1.16
+        ports:
+        - containerPort: 80
+          name: rolling
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green 
+  namespace: default
+  labels:
+    version: green
+spec:
+  selector:
+    matchLabels:
+      version: green
+  replicas: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: canary
+        version: green
+    spec:
+      containers:
+      - name: rolling
+        image: httpd:latest
+        ports:
+        - containerPort: 80
+          name: rolling
+
+

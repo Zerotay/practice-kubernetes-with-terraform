@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "orphan"
+  namespace: default
+  labels:
+    app: default
+spec:
+  containers:
+  - name: myapp
+    image: "nginx:latest"
+    ports:
+    - containerPort: 80
+      name: http

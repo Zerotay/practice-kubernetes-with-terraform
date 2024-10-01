@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup
+  labels:
+    test: startup
+spec:
+  containers:
+  - name: startup
+    image: registry.k8s.io/busybox
+    args:
+      - /bin/sh
+      - -c
+      - touch /tmp/healthy; sleep 10; touch /tmp/started; sleep 10; rm -f /tmp/healthy; sleep 10; 
+    readinessProbe:
+      exec:
+        command:
+        - /bin/sh
+        - -c
+        - cat /tmp/healthy
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 1 # default 3
+    startupProbe:
+      exec:
+        command:
+        - /bin/sh
+        - -c
+        - cat /tmp/started
+      # initialDelaySeconds: 5
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 5 # default 3
+
+
+

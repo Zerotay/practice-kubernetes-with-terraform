@@ -20,7 +20,8 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 cp -R $HOME/.kube /vagrant/.kube
 cp -R $HOME/.kube /home/vagrant/.kube
 sudo chown -R vagrant:vagrant /home/vagrant/.kube
-kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+# kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 kubectl completion bash >/etc/bash_completion.d/kubectl
 echo 'alias k=kubectl' >>/home/vagrant/.bashrc
 

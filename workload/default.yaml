@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # labels:
+  #   app: default
+  name: default
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: default
+    # matchExpressions:
+    # - key: app
+    #   operator: In
+    #   values:
+    #   - default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+      - image: nginx:1.16
+        name: nginx
+        ports:
+        - containerPort: 80
+          name: http
+  # progressDeadlineSeconds: 30

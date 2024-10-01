@@ -1,0 +1,43 @@
+# apiVersion: apps/v1
+# kind: DaemonSet
+# metadata:
+#   name: api-server-daemon
+#   namespace: default
+#   labels:
+#     app: api-server-daemon
+# spec:
+#   selector:
+#     matchLabels:
+#       app: api-server-daemon
+#   template:
+#     metadata:
+#       labels:
+#         app: api-server-daemon
+#     spec:
+#       containers:
+#       - name: api-server-daemon
+#         image: zerotay/api-server:v1.0.0
+#         ports:
+#           - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web
+  name: nginx-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
