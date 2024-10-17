@@ -1,0 +1,39 @@
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: intree-nfs
+  namespace: default
+spec:
+  selector:
+    app: intree-nfs
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: intree-nfs
+  namespace: default
+  labels:
+    app: intree-nfs
+spec:
+  hostname: intree-nfs
+  containers:
+  - name: intree-nfs
+    image: "nginx:1.16"
+    ports:
+    - containerPort: 80
+      name: http
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: intree-nfs
+  volumes:
+  - name: intree-nfs
+    nfs:
+      server: 192.168.56.9
+      path: /nfs/html
+---
+

@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       version: blue
-  replicas: 3
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 25%

@@ -13,11 +13,11 @@ spec:
   selector:
     matchLabels:
       app: rolling
-  replicas: 5
+  replicas: 10
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      maxSurge: 10%
+      maxUnavailable: 10%
     type: RollingUpdate
   template:
     metadata:

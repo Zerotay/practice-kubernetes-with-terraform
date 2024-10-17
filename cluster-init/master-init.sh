@@ -20,8 +20,32 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 cp -R $HOME/.kube /vagrant/.kube
 cp -R $HOME/.kube /home/vagrant/.kube
 sudo chown -R vagrant:vagrant /home/vagrant/.kube
-# kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 kubectl completion bash >/etc/bash_completion.d/kubectl
 echo 'alias k=kubectl' >>/home/vagrant/.bashrc
+
+# network setting
+# kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+kubetctl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+# storage setting
+helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version v4.9.0
+kubectl apply -f - <<EOF
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.56.9
+  share: /nfs/csi
+  # csi.storage.k8s.io/provisioner-secret is only needed for providing mountOptions in DeleteVolume
+  # csi.storage.k8s.io/provisioner-secret-name: "mount-options"
+  # csi.storage.k8s.io/provisioner-secret-namespace: "default"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
+EOF
+
 
