@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "orphan"
+  name: orphan
   namespace: default
   labels:
     app: default

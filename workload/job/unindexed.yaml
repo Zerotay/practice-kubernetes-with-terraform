@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: unindexed
+spec:
+  template:
+    spec:
+      containers:
+      - name: test
+        image: python
+        command: 
+        - python3
+        - -c
+        - |
+          import time, random, sys
+          print('This pod is printing in', time.strftime('%Y-%m-%d %H:%M:%S'))
+          time.sleep(10)
+          # if random.random() < 0.5:
+          #   sys.exit(1)
+      restartPolicy: OnFailure
+  completions: 5
+  parallelism: 4
+  backoffLimit: 1

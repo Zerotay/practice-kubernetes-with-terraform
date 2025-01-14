@@ -1,0 +1,15 @@
+apiVersion: crd.projectcalico.org/v1
+kind: BGPPeer
+metadata:
+  name: bfg-peer
+spec:
+  peerIP: 192.168.56.20
+  asNumber: 65001
+---
+apiVersion: crd.projectcalico.org/v1
+kind: BGPPeer
+metadata:
+  name: loxi-bgp
+spec:
+  peerIP: 192.168.56.200
+  asNumber: 64512

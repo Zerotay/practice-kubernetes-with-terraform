@@ -15,10 +15,10 @@ spec:
       app: rolling
   replicas: 10
   strategy:
+    type: RollingUpdate
     rollingUpdate:
       maxSurge: 10%
       maxUnavailable: 10%
-    type: RollingUpdate
   template:
     metadata:
       labels:

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: schedule-to-drained
+  name: schedule-to-drained
+spec:
+  containers:
+  - image: nginx:1.16
+    name: schedule-to-drained
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  nodeName: worker2
+  tolerations:
+  - effect: NoSchedule
+    key: node.kubernetes.io/unschedulable
+    operator: Exists
+    # - effect: NoSchedule
+    #   key: node-role.kubernetes.io/control-plane
+    #   operator: Exists
+    # - effect: NoSchedule
+    #   key: node-role.kubernetes.io/master
+    #   operator: Exists
+    # - effect: NoExecute
+    #   key: node.kubernetes.io/not-ready
+    #   operator: Exists
+    # - effect: NoExecute
+    #   key: node.kubernetes.io/unreachable
+    #   operator: Exists
+    # - effect: NoSchedule
+    #   key: node.kubernetes.io/disk-pressure
+    #   operator: Exists
+    # - effect: NoSchedule
+    #   key: node.kubernetes.io/memory-pressure
+    #   operator: Exists
+    # - effect: NoSchedule
+    #   key: node.kubernetes.io/pid-pressure
+    #   operator: Exists
