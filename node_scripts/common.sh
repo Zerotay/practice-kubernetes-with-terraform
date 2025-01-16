@@ -7,7 +7,7 @@ br_netfilter
 EOF
 sudo modprobe br_netfilter
 
-sudo swapoff -a && sudo sed -i '/ swap / s/^/#/' /etc/fstab
+sudo swapoff -a && sudo sed -i '/swap/ s/^/#/' /etc/fstab
 
 cat << 'EOF' | sudo tee /etc/sysctl.d/kubernetes.conf
 net.bridge.bridge-nf-call-iptables = 1

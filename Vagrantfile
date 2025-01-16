@@ -6,6 +6,7 @@ require "yaml"
 settings = YAML.load_file "node_scripts/vagrant-setting.yaml"
 controls = settings["nodes"]["control"]["count"]
 workers = settings["nodes"]["workers"]["count"]
+ssh_port = 20000
 
 Vagrant.configure(Vagrant_API_Version) do |config|
 
@@ -18,6 +19,8 @@ Vagrant.configure(Vagrant_API_Version) do |config|
     host.vm.box_version = settings["software"]["cluster"]["version"]
     host.vm.network :private_network, ip: "192.168.80.9", :netmask => "255.255.255.0"
     host.vm.network :private_network, ip: "192.168.90.9", :netmask => "255.255.255.0"
+    ssh_port = ssh_port + 1
+    host.vm.network "forwarded_port", guest: 22, host: ssh_port, auto_correct: false, id: "ssh"
     host.vm.provider :virtualbox do |vbox|
         vbox.customize ["modifyvm", :id, "--memory", 2048]
         vbox.customize ["modifyvm", :id, "--cpus", 2]
@@ -35,6 +38,8 @@ Vagrant.configure(Vagrant_API_Version) do |config|
       master.vm.synced_folder ".", "/vagrant"
       master.vm.network :private_network, ip: "192.168.80.#{ip}", netmask: settings["network"]["netmask"]
       master.vm.network :private_network, ip: settings["network"]["extra_control_ip"], netmask: settings["network"]["netmask"]
+      ssh_port = ssh_port + 1
+      master.vm.network "forwarded_port", guest: 22, host: ssh_port, auto_correct: false, id: "ssh"
 
       master.vm.provision "shell",
         env: {
@@ -77,6 +82,8 @@ Vagrant.configure(Vagrant_API_Version) do |config|
       worker.vm.hostname = "worker#{node_number}"
       ip = node_number + 20
       worker.vm.network :private_network, ip: "192.168.80.#{ip}", netmask: settings["network"]["netmask"]
+      ssh_port = ssh_port + 1
+      worker.vm.network "forwarded_port", guest: 22, host: ssh_port, auto_correct: false, id: "ssh"
 
       worker.vm.provision "shell",
         env: {
