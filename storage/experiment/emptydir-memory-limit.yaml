@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empty-test1
+spec:
+  nodeName: worker2
+  containers:
+    # - name: test1
+    #   image: bash
+    #   command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+    #   volumeMounts:
+    #     - name: empty
+    #       mountPath: /test
+    #   resources:
+    #     limits:
+    #       ephemeral-storage: 1M
+    - name: test2
+      image: bash
+      command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+      volumeMounts:
+        - name: empty
+          mountPath: /test
+      # resources:
+      #   limits:
+      #     ephemeral-storage: 1M
+  volumes:
+    - name: empty
+      # emptyDir: {}
+      emptyDir: 
+        sizeLimit: 1Mi
+      #   medium: Memory

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: first-mount
+  labels:
+    app: first-mount
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: second-mount
+  labels:
+    app: second-mount
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mounting-above
+spec:
+  containers:
+    - name: test
+      image: busybox:1.28
+      command: ['sh', '-c', 'echo "The app is running!" && tail -f /dev/null']
+      volumeMounts:
+        - name: second-mount
+          mountPath: /test/test2
+        - name: first-mount
+          mountPath: /test
+  volumes:
+    - name: first-mount
+      persistentVolumeClaim:
+        claimName: first-mount
+    - name: second-mount
+      persistentVolumeClaim:
+        claimName: second-mount
