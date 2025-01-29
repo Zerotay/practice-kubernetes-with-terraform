@@ -1,0 +1,27 @@
+{
+    "signing": {
+        "default": {
+            "expiry": "16800h"
+        },
+        "profiles": {
+            "www": {
+                "expiry": "8760h",
+                "usages": [
+                    "signing",
+                    "key encipherment",
+                    "server auth"
+                ]
+            },
+            "zerotay-ca": {
+                "expiry": "16800h",
+                "usages": [
+                    "signing",
+                    "key encipherment",
+                    "server auth",
+                    "client auth"
+                ]
+            }
+        }
+    }
+}
+

@@ -1,0 +1,23 @@
+[req]
+distinguished_name = req_distinguished_name
+prompt = no
+req_extensions = my_ext
+
+[req_distinguished_name]
+CN = webhook.com
+C = KR
+L = Seoul
+O = practice
+
+[my_ext]
+basicConstraints     = CA:FALSE
+extendedKeyUsage     = clientAuth, serverAuth
+keyUsage             = critical, digitalSignature, keyEncipherment
+nsCertType           = client
+subjectAltName       = @alt_names
+
+[alt_names]
+DNS.0 = webhook.com
+DNS.1 = www.webhook.com
+IP.0 = 192.168.80.1
+

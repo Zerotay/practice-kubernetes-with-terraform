@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: statefulset-smb
-  namespace: default
+  namespace: keycloak
   labels:
     app: nginx
 spec:
   serviceName: statefulset-smb
-  replicas: 1
+  replicas: 10
   template:
     metadata:
       labels:
@@ -35,7 +35,7 @@ spec:
     - metadata:
         name: persistent-storage
       spec:
-        storageClassName: smb
+        storageClassName: keycloak-sc
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:

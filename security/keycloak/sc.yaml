@@ -1,0 +1,20 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: keycloak-sc
+  namespace: keycloak
+mountOptions:
+- dir_mode=0777
+- file_mode=0777
+- uid=1001
+- gid=1001
+parameters:
+  csi.storage.k8s.io/node-stage-secret-name: smbcreds
+  csi.storage.k8s.io/node-stage-secret-namespace: keycloak
+  csi.storage.k8s.io/provisioner-secret-name: smbcreds
+  csi.storage.k8s.io/provisioner-secret-namespace: keycloak
+  source: //172.30.1.60/smb
+provisioner: smb.csi.k8s.io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer

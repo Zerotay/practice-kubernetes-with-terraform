@@ -1,0 +1,66 @@
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+  - level: RequestResponse
+    users: ["test-ua", "test-sa"]
+  - level: Metadata
+    users: ["test-ua", "test-sa"]
+  - level: Metadata
+    resources:
+    - group: ""
+      resources: ["pods"]
+   
+---
+apiVersion: audit.k8s.io/v1
+kind: Policy
+# 이벤트를 만들지 않을 스테이지를 넣어주면 된다.
+# omitStages:
+#   - "RequestReceived"
+rules:
+  # Log pod changes at RequestResponse level
+  - level: RequestResponse
+    resources:
+    - group: ""
+      resources: ["pods"]
+  - level: Metadata
+    resources:
+    - group: ""
+      resources: ["pods/log", "pods/status"]
+  - level: None
+    resources:
+    - group: ""
+      resources: ["configmaps"]
+      resourceNames: ["controller-leader"]
+  - level: None
+    users: ["system:kube-proxy"]
+    verbs: ["watch"]
+    resources:
+    - group: "" # core API group
+      resources: ["endpoints", "services"]
+
+  # Don't log authenticated requests to certain non-resource URL paths.
+  - level: None
+    userGroups: ["system:authenticated"]
+    nonResourceURLs:
+    - "/api*" # Wildcard matching.
+    - "/version"
+
+  - level: Request
+    resources:
+    - group: "" # core API group
+      resources: ["configmaps"]
+    namespaces: ["kube-system"]
+
+  - level: Metadata
+    resources:
+    - group: ""
+      resources: ["secrets", "configmaps"]
+
+  - level: Request
+    resources:
+    - group: "" # core API group
+    - group: "extensions" # Version of group should NOT be included.
+
+  - level: Metadata
+    omitStages:
+      - "RequestReceived"

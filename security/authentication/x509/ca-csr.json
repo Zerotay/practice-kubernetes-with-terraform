@@ -1,0 +1,16 @@
+{
+    "CN": "zerotay-ca",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "KR",
+            "ST": "Seoul",
+            "L": "Seoul",
+            "O": "test"
+        }
+    ]
+}
+

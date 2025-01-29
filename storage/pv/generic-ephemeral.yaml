@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ge
+  labels:
+    app: ge
+spec:
+  selector:
+    matchLabels:
+      app: ge
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: ge
+    spec:
+      containers:
+      - name: ge
+        image: nginx:1.16
+        ports:
+        - containerPort: 80
+          name: ge
+        volumeMounts: []
+      volumes:
+        - name: generic
+          ephemeral:
+            volumeClaimTemplate:
+              metadata: {}
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Mi

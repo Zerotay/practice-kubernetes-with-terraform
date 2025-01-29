@@ -1,0 +1,11 @@
+{
+  "CN": "test-ua",
+  "hosts": [ ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [{
+    "O": "test-group"
+  }]
+}

@@ -35,3 +35,4 @@ spec:
         name: nginx
         ports:
         - containerPort: 80
+      nodeName: worker2

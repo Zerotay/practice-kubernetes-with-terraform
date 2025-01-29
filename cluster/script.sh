@@ -1,3 +1,10 @@
+
+# install metric server
+
+# install metallb
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+
+cat <<EOL | kubectl apply -f -
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
@@ -15,4 +22,4 @@ metadata:
 spec:
   ipAddressPools:
   - ip-pool
-
+EOL
